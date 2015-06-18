@@ -29,7 +29,7 @@ public class SnapAdapter extends RecyclerView.Adapter<SnapAdapter.SnapnoteViewHo
         public SnapnoteViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
-            noteDate = (TextView)itemView.findViewById(R.id.note_date);
+            noteDate = (TextView)itemView.findViewById(R.id.note_due_date);
             dueDate = (TextView)itemView.findViewById(R.id.note_date);
             notePhoto = (ImageView)itemView.findViewById(R.id.note_photo);
         }
@@ -54,9 +54,9 @@ public class SnapAdapter extends RecyclerView.Adapter<SnapAdapter.SnapnoteViewHo
 
     @Override
     public void onBindViewHolder(SnapAdapter.SnapnoteViewHolder snapnoteViewHolder, int i) {
-        snapnoteViewHolder.noteDate.setText(notes.get(i).date);
-        snapnoteViewHolder.dueDate.setText(notes.get(i).duedate);
-        snapnoteViewHolder.notePhoto.setImageResource(notes.get(i).photoId);
+        snapnoteViewHolder.noteDate.setText(notes.get(i).getDate());
+        snapnoteViewHolder.dueDate.setText(notes.get(i).getDuedate());
+        snapnoteViewHolder.notePhoto.setImageBitmap(notes.get(i).getNoteImg());
     }
 
     @Override

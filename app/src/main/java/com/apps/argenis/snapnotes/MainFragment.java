@@ -40,6 +40,7 @@ import adapters.SnapAdapter;
 import clases.Utils;
 import clases.HidingScrollListener;
 import clases.Snapnote;
+import database.DatabaseHandler;
 
 
 /**
@@ -65,7 +66,13 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
     FloatingActionButton cnote; //button for a new snapnote
     FloatingActionButton tnote; //button for a new snapnote
     FloatingActionMenu actionMenu; //Menu for the main actions
-    String mCurrentPhotoPath;     // Path for the new photo
+
+    //Snapnote field
+    String mCurrentPhotoPath = "";     // Path for the new photo
+    String reminderDay       = "";     //The day of the reminder
+    String reminderHour      = "";     //The hour of the reminder
+    String todayDay       = "";     //The day of the reminder
+    String todayHour      = "";     //The hour of the reminder
 
     //variables for the recycler view
 
@@ -78,20 +85,16 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
 
+    //list of all the snapnotes
     private List<Snapnote> notes;
 
-    // This method creates an ArrayList that has three  objects for example purpose
+    //handler for the db
+    DatabaseHandler db;
 
+    // This method load the snapnotes
     private void initializeData(){
-        notes = new ArrayList<>();
-        notes.add(new Snapnote("Emma Wilson", "23 years old", R.mipmap.ic_launcher));
-        notes.add(new Snapnote("Lavery Maiss", "25 years old", R.mipmap.ic_launcher));
-        notes.add(new Snapnote("Lillie Watts", "35 years old", R.mipmap.ic_launcher));
-        notes.add(new Snapnote("Emma Wilson", "23 years old", R.mipmap.ic_launcher));
-
+        notes = db.getAllSnapnotes();
     }
-
-
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -125,6 +128,9 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        db = new DatabaseHandler(getActivity().getBaseContext());
+
         this.initializeData();
     }
 
@@ -198,22 +204,9 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
             @Override
             public int getSpanSize(int position) {
 
-              int type = Utils.randomInt(1,3);
+                int type = Utils.randomInt(1, 3);
 
-              int span = (3 - position % 3);
-
-             /* switch (type)
-              {
-                 case 1:
-                     span =  (3 - position % 3);
-                     break;
-                 case 2:
-                     span = (3 - position % 3);
-                     break;
-                 case 3:
-                     span =  1;
-                     break;
-              }*/
+                int span = (3 - position % 3);
 
                 return span;
             }
@@ -241,7 +234,6 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
         today    = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-
     }
 
     //method to create a new iamge file to store the snaptno
@@ -319,8 +311,20 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
 
-        String reminderDay = String.valueOf(calendar.get(Calendar.YEAR)) +"-"+ String.valueOf(calendar.get(Calendar.MONTH)) +"-"+ String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        Log.d("Day set",reminderDay);
+        //Alarm date and hour
+        reminderDay = String.valueOf(calendar.get(Calendar.YEAR)) +"-"+ String.valueOf(calendar.get(Calendar.MONTH) + 1) +"-"+ String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        reminderHour = String.valueOf(calendar.get(Calendar.HOUR)) +":"+ String.valueOf(calendar.get(Calendar.MINUTE) );
+
+        //Creation date and hour
+        todayDay = String.valueOf(today.get(Calendar.YEAR)) +"-"+ String.valueOf(today.get(Calendar.MONTH) + 1) +"-"+ String.valueOf(today.get(Calendar.DAY_OF_MONTH));
+        todayHour = String.valueOf(today.get(Calendar.HOUR)) +":"+ String.valueOf(today.get(Calendar.MINUTE) );
+
+        String creationDate = todayDay+" "+todayHour;
+        String dueDate = reminderDay+" "+reminderHour;
+
+        Snapnote newNote = new Snapnote(creationDate,dueDate,mCurrentPhotoPath);
+        db.addSnapnote(newNote);
+        Log.d("Day set",creationDate+" "+dueDate);
     }
 
     @Override
