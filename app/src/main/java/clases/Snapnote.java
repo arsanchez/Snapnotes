@@ -2,6 +2,7 @@ package clases;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 
@@ -22,8 +23,8 @@ public class Snapnote {
     //constructor
     public Snapnote(int id,String date, String duedate, String photoUrl)
     {
-        this.id = id;
-        this.date = date;
+        this.setId(id);
+        this.setDate(date);
         this.setDuedate(duedate);
         this.setPhotoUrl(photoUrl);
     }
@@ -31,7 +32,7 @@ public class Snapnote {
     //constructor
     public Snapnote(String date, String duedate, String photoUrl)
     {
-        this.date = date;
+        this.setDate(date);
         this.setDuedate(duedate);
         this.setPhotoUrl(photoUrl);
     }
@@ -70,7 +71,8 @@ public class Snapnote {
 
     public Bitmap getNoteImg()
     {
-        File imgFile = new  File(this.photoUrl);
+        Log.d("Photo path", this.getPhotoUrl());
+        File imgFile = new  File(this.getPhotoUrl());
 
         if(imgFile.exists()){
 

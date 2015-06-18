@@ -106,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 note.setId(Integer.parseInt(cursor.getString(0)));
                 note.setDate(cursor.getString(1));
                 note.setDuedate(cursor.getString(2));
-                note.setPhotoUrl(cursor.getString(2));
+                note.setPhotoUrl(cursor.getString(3));
                 // Adding contact to list
                 contactList.add(note);
             } while (cursor.moveToNext());

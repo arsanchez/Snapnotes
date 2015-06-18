@@ -1,5 +1,6 @@
 package adapters;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,12 +57,22 @@ public class SnapAdapter extends RecyclerView.Adapter<SnapAdapter.SnapnoteViewHo
     public void onBindViewHolder(SnapAdapter.SnapnoteViewHolder snapnoteViewHolder, int i) {
         snapnoteViewHolder.noteDate.setText(notes.get(i).getDate());
         snapnoteViewHolder.dueDate.setText(notes.get(i).getDuedate());
-        snapnoteViewHolder.notePhoto.setImageBitmap(notes.get(i).getNoteImg());
+        Bitmap noteBitmap = notes.get(i).getNoteImg();
+
+        if(noteBitmap != null)
+        {
+            snapnoteViewHolder.notePhoto.setImageBitmap(noteBitmap);
+        }
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public void addItemsToList(Snapnote note)
+    {
+        notes.add(note);
     }
 
 

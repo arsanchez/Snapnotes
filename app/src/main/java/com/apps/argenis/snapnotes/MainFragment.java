@@ -85,6 +85,8 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
 
+    //adapter for the notes list
+    SnapAdapter adapter;
     //list of all the snapnotes
     private List<Snapnote> notes;
 
@@ -214,7 +216,7 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
 
         recyclerView.setLayoutManager(glm);
 
-        SnapAdapter adapter = new SnapAdapter(notes);
+        adapter = new SnapAdapter(notes);
         recyclerView.setAdapter(adapter);
 
 
@@ -250,7 +252,8 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+       // mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -264,7 +267,7 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.e("Camera erro",ex.getMessage());
+                Log.e("Camera error",ex.getMessage());
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -324,6 +327,10 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
 
         Snapnote newNote = new Snapnote(creationDate,dueDate,mCurrentPhotoPath);
         db.addSnapnote(newNote);
+
+        adapter.addItemsToList(newNote);
+        adapter.notifyDataSetChanged();
+
         Log.d("Day set",creationDate+" "+dueDate);
     }
 
