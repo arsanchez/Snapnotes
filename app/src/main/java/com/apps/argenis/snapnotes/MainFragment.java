@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -199,10 +200,11 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
         super.onActivityCreated(savedInstanceState);
         recyclerView = (RecyclerView) getView().findViewById(R.id.RecyclerViewNotes);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager glm = new GridLayoutManager(getActivity(),3);
-        //glm.setOrientation(LinearLayoutManager.VERTICAL);
+        //GridLayoutManager glm = new GridLayoutManager(getActivity(),3);
+        LinearLayoutManager glm = new LinearLayoutManager(getActivity());
+        glm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+       /* glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
 
@@ -212,11 +214,11 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
 
                 return span;
             }
-        });
+        });*/
 
         recyclerView.setLayoutManager(glm);
 
-        adapter = new SnapAdapter(notes);
+        adapter = new SnapAdapter(notes,getActivity());
         recyclerView.setAdapter(adapter);
 
 

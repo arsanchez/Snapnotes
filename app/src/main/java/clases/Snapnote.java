@@ -3,6 +3,7 @@ package clases;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.io.File;
 
@@ -71,7 +72,7 @@ public class Snapnote {
 
     public Bitmap getNoteImg()
     {
-        Log.d("Photo path", this.getPhotoUrl());
+        /*Log.d("Photo path", this.getPhotoUrl());
         File imgFile = new  File(this.getPhotoUrl());
 
         if(imgFile.exists()){
@@ -79,8 +80,10 @@ public class Snapnote {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
             return myBitmap;
-        }
+        }*/
 
         return null;
     }
+
+
 }
