@@ -1,10 +1,8 @@
 package adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
@@ -188,12 +186,12 @@ public class SnapAdapter extends RecyclerView.Adapter<SnapAdapter.SnapnoteViewHo
         // Decode image in background.
         @Override
         protected Bitmap doInBackground(String... params) {
-
-
-            final int THUMBSIZE = 90;
+            url = params[0];
+            final int THUMBSIZEW = 800;
+            final int THUMBSIZEH = 400;
 
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(url),
-                    THUMBSIZE,50);
+                    THUMBSIZEW, THUMBSIZEH);
             /*Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());*/
             addBitmapToMemoryCache(String.valueOf(params[0]), ThumbImage);
 

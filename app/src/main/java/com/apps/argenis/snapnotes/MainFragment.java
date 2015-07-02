@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 import adapters.SnapAdapter;
+import clases.RecyclerItemClickListener;
 import clases.Utils;
 import clases.HidingScrollListener;
 import clases.Snapnote;
@@ -222,6 +224,7 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
         recyclerView.setAdapter(adapter);
 
 
+
         recyclerView.addOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
@@ -233,6 +236,21 @@ public class MainFragment extends Fragment implements  TimePickerDialog.OnTimeSe
                 showViews();
             }
         });
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(),new RecyclerItemClickListener.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+                Toast.makeText(getActivity(),"Dialogo",Toast.LENGTH_SHORT).show();
+
+            }
+        }));
+
 
         calendar = Calendar.getInstance();
         today    = Calendar.getInstance();
